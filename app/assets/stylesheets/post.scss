@@ -94,8 +94,11 @@ h3 {
 }
 .post-title {
     font-size: 2em;
-    color: #222;
+    color: #444;
     margin-bottom: 0.2em;
+    a {
+        color: #444;
+    }
 }
 .post-avatar {
     border-radius: 50px;
@@ -159,7 +162,6 @@ h3 {
 @media (min-width: 48em) {
     .content {
         padding: 2em 3em 0;
-        margin-left: 25%;
     }
 
     .header {
