@@ -3,7 +3,17 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'post#index'
+  root 'posts#index'
+
+
+  get "/posts" => redirect("/")
+  get "/posts/" => redirect("/")
+
+  get "/:year", :to => "posts#index", :constraints => { :year => /\d{4}/ }
+  get "/:year/:month", :to => "posts#index",
+  :constraints => { :year => /\d{4}/, :month => /\d{1,2}/ }
+  get "/:year/:month/:title", :to => "posts#show", :as => :post,
+  :constraints => { :year => /\d{4}/, :month => /\d{1,2}/, :title => /.+/ }
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -12,11 +22,11 @@ Rails.application.routes.draw do
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
-  resources :posts do
-    member do
-      get 'view'
-    end
-  end
+  #resources :posts do
+  #  member do
+  #    get 'show'
+  #  end
+  #end
 
   # Example resource route with options:
   #   resources :products do
