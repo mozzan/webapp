@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   include ActionView::Helpers::SanitizeHelper
+  include ApplicationHelper
 
   def index
     if params[:p].nil?
@@ -20,6 +21,7 @@ class PostsController < ApplicationController
 
   def show(postId)
     @post = Wp_post.find(postId)
+    replaceYoutube @post.post_content
     render 'show'
   end
 
@@ -33,4 +35,15 @@ private
     end
   end
 
+  def replaceYoutube content
+    content.gsub!(/\r\n/, '<br>')
+    ids = content.scan(/(https*:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9]+))/i)
+    ids.each do |url, id|
+      content.sub!("#{url}", wrapYoutube(embed(id)))
+    end
+  end
+
+  def wrapYoutube content
+    "<div class=\"embed-container\">#{content}</div>"
+  end
 end
